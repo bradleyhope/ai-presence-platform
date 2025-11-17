@@ -22,7 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { trpc } from "@/lib/trpc";
-import { CheckCircle2, Clock, Plus, Search, XCircle } from "lucide-react";
+import { CheckCircle2, Clock, Plus, Search, XCircle, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { toast } from "sonner";
@@ -64,6 +64,24 @@ export default function Audits() {
   });
 
   const executeMutation = trpc.audits.executeQueries.useMutation();
+
+  const deleteMutation = trpc.audits.delete.useMutation({
+    onSuccess: () => {
+      utils.audits.list.invalidate();
+      toast.success("Audit deleted successfully");
+    },
+    onError: (error) => {
+      toast.error(error.message || "Failed to delete audit");
+    },
+  });
+
+  const handleDelete = (e: React.MouseEvent, auditId: number) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (confirm("Are you sure you want to delete this audit? This action cannot be undone.")) {
+      deleteMutation.mutate({ id: auditId });
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -173,7 +191,18 @@ export default function Audits() {
                             <CardDescription>{entity?.name || "Unknown Entity"}</CardDescription>
                           </div>
                         </div>
-                        {getStatusBadge(audit.status)}
+                        <div className="flex items-center gap-2">
+                          {getStatusBadge(audit.status)}
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={(e) => handleDelete(e, audit.id)}
+                            disabled={deleteMutation.isPending}
+                            className="hover:bg-destructive hover:text-destructive-foreground"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
                       </div>
                     </CardHeader>
                     <CardContent>

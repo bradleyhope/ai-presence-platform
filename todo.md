@@ -179,3 +179,10 @@
 - [x] Add SWOT analysis generator (Strengths, Weaknesses, Opportunities, Threats)
 - [x] Build evidence-based recommendations engine with priority levels
 - [x] Add platform-by-platform comparison analytics
+
+
+## Feature: Delete Audits
+- [x] Add delete endpoint to audits router
+- [x] Add cascade deletion for related queries
+- [x] Add delete button to Audits list page
+- [x] Add confirmation dialog before deletion

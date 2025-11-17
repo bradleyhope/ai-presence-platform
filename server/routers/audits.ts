@@ -3,7 +3,7 @@ import { z } from "zod";
 import { protectedProcedure, router } from "../_core/trpc";
 import * as db from "../db";
 import { eq } from "drizzle-orm";
-import { audits } from "../../drizzle/schema";
+import { audits, queries } from "../../drizzle/schema";
 import { getDb } from "../db";
 import { queryAIPlatform, queryAIPlatformWebSearch } from "../services/aiQuery";
 
@@ -32,6 +32,24 @@ export const auditsRouter = router({
     const agencyId = 1;
     return await db.getAuditsByAgency(agencyId);
   }),
+
+  /**
+   * Delete an audit and all its related queries
+   */
+  delete: protectedProcedure
+    .input(z.object({ id: z.number() }))
+    .mutation(async ({ input }) => {
+      const database = await getDb();
+      if (!database) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database not available" });
+      
+      // Delete related queries first (cascade)
+      await database.delete(queries).where(eq(queries.auditId, input.id));
+      
+      // Delete the audit
+      await database.delete(audits).where(eq(audits.id, input.id));
+      
+      return { success: true };
+    }),
 
   /**
    * Get a single audit by ID with its queries
