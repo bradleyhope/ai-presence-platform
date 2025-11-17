@@ -106,3 +106,9 @@
 - [x] Update ChatGPT query function to use OpenAI API directly
 - [x] Remove dependency on built-in Manus LLM helper for ChatGPT
 - [x] Add OPENAI_API_KEY to required secrets
+
+
+## Bug Fixes
+- [x] Improve query generation to be more natural and entity-specific
+- [x] Fix Anthropic Claude API integration (use x-api-key header)
+- [x] Update Claude to use latest model (claude-sonnet-4-20250514)

@@ -73,11 +73,28 @@ export default function Audits() {
     }
 
     const entity = entities?.find((e) => e.id === Number(selectedEntityId));
-    const queries = [
-      queryText,
-      `What is ${entity?.name}?`,
-      `Tell me about ${entity?.name}`,
-    ];
+    if (!entity) {
+      toast.error("Entity not found");
+      return;
+    }
+
+    // Transform user's query intent into natural, entity-specific questions
+    const userIntent = queryText.trim();
+    let mainQuery: string;
+
+    // If user already wrote a complete question, use it
+    if (userIntent.includes(entity.name) || userIntent.includes("?")) {
+      mainQuery = userIntent;
+    } else {
+      // Transform intent into natural question
+      if (entity.entityType === "person") {
+        mainQuery = `Who is ${entity.name}? ${userIntent}`;
+      } else {
+        mainQuery = `What is ${entity.name}? ${userIntent}`;
+      }
+    }
+
+    const queries = [mainQuery];
 
     createMutation.mutate({
       entityId: Number(selectedEntityId),

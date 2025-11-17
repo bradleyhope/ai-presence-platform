@@ -279,13 +279,12 @@ export async function queryClaude(queryText: string): Promise<AIQueryResult> {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-api-version": "2023-06-01",
+        "x-api-key": apiKey,
         "anthropic-version": "2023-06-01",
-        Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: "claude-3-5-sonnet-20241022",
-        max_tokens: 1024,
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 2048,
         messages: [
           {
             role: "user",
