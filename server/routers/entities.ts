@@ -27,6 +27,19 @@ export const entitiesRouter = router({
     }),
 
   /**
+   * Get a single entity by ID (alias for getById)
+   */
+  get: protectedProcedure
+    .input(z.object({ id: z.number() }))
+    .query(async ({ input }) => {
+      const entity = await db.getEntityById(input.id);
+      if (!entity) {
+        throw new Error("Entity not found");
+      }
+      return entity;
+    }),
+
+  /**
    * Create a new entity
    */
   create: protectedProcedure

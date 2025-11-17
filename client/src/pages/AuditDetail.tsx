@@ -111,6 +111,11 @@ export default function AuditDetail() {
               Created {new Date(audit.createdAt).toLocaleString()}
             </p>
           </div>
+          {audit.status === "completed" && (
+            <Button asChild>
+              <Link href={`/audits/${id}/insights`}>View Insights</Link>
+            </Button>
+          )}
         </div>
 
         <div className="grid gap-4 md:grid-cols-3">

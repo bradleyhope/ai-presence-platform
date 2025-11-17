@@ -1,9 +1,29 @@
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { protectedProcedure, router } from "../_core/trpc";
 import * as db from "../db";
+import { eq } from "drizzle-orm";
+import { audits } from "../../drizzle/schema";
+import { getDb } from "../db";
 import { queryAIPlatform } from "../services/aiQuery";
 
 export const auditsRouter = router({
+  /**
+   * Get a single audit by ID
+   */
+  get: protectedProcedure
+    .input(z.object({ id: z.number() }))
+    .query(async ({ input }) => {
+      const database = await getDb();
+      if (!database) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database not available" });
+      
+      const result = await database.select().from(audits).where(eq(audits.id, input.id)).limit(1);
+      if (result.length === 0) {
+        throw new TRPCError({ code: "NOT_FOUND", message: "Audit not found" });
+      }
+      return result[0];
+    }),
+
   /**
    * List all audits for the user's agency
    */

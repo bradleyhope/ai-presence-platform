@@ -112,3 +112,35 @@
 - [x] Improve query generation to be more natural and entity-specific
 - [x] Fix Anthropic Claude API integration (use x-api-key header)
 - [x] Update Claude to use latest model (claude-sonnet-4-20250514)
+
+
+## Phase 7: Monitoring & Change Detection
+- [x] Add monitoring schedule to entities (weekly/monthly)
+- [x] Create scheduled audit execution system
+- [x] Build change detection algorithm (compare audit results)
+- [x] Add alerts for significant changes
+- [x] Create trend tracking (improvement/degradation over time)
+- [x] Add monitoring dashboard UI (Insights page)
+
+## Phase 8: Source Intelligence
+- [x] Enhance citation extraction from AI responses
+- [x] Build source tracking database
+- [x] Identify most influential sources per entity
+- [x] Detect problematic sources (negative/outdated)
+- [x] Create source analysis UI (Insights page)
+- [x] Add source recommendation engine
+
+## Phase 9: Actionable Recommendations
+- [x] Build gap analysis (missing information detection)
+- [x] Create content strategy recommendations
+- [x] Add source optimization suggestions
+- [x] Build mitigation tactics for negative content
+- [x] Create recommendations UI (Insights page)
+- [x] Generate action plan reports
+
+## Phase 10: Comparison & Trends
+- [ ] Build audit comparison view (side-by-side)
+- [ ] Add consistency scoring across platforms
+- [ ] Create trend visualization charts
+- [ ] Add historical data analysis
+- [ ] Build timeline view of changes

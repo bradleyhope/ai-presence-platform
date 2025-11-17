@@ -9,6 +9,7 @@ import Entities from "./pages/Entities";
 import EntityDetail from "./pages/EntityDetail";
 import Audits from "./pages/Audits";
 import AuditDetail from "./pages/AuditDetail";
+import AuditInsights from "./pages/AuditInsights";
 import Reports from "./pages/Reports";
 
 function Router() {
@@ -19,6 +20,7 @@ function Router() {
       <Route path={"/entities/:id"} component={EntityDetail} />
       <Route path={"/audits"} component={Audits} />
       <Route path={"/audits/:id"} component={AuditDetail} />
+      <Route path={"/audits/:id/insights"} component={AuditInsights} />
       <Route path={"/reports"} component={Reports} />
       <Route path={"/404"} component={NotFound} />
       <Route component={NotFound} />
