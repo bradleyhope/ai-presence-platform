@@ -161,3 +161,21 @@
 - [x] Update database schema to track query type (llm vs web_search)
 - [x] Update UI to show both result types separately (nested tabs: Training Data | Web Search)
 - [x] Extract citations from web search results
+
+
+## Advanced Analytics Engine (Robust & Quantitative)
+- [x] Read research documents on AI search mechanisms and strategies
+- [x] Design comprehensive 6-dimensional scoring algorithm (Visibility, Authority, Sentiment, Completeness, Source Quality, Optimization)
+- [x] Implement baseline benchmarking (compare against industry averages with percentile ranking)
+- [x] Build source authority analysis (tier 1/2/3 classification, domain credibility scoring)
+- [x] Create sentiment analysis for AI responses (-100 to +100 scale)
+- [x] Add completeness scoring (information gaps detection)
+- [x] Implement consistency scoring across platforms
+- [x] Build citation quality analysis (authoritative vs weak sources)
+- [x] Add prominence scoring (how prominently entity is featured)
+- [x] Create comprehensive analytics service with all scoring algorithms
+- [x] Create analytics tRPC router
+- [x] Replace basic Insights page with comprehensive analytics dashboard
+- [x] Add SWOT analysis generator (Strengths, Weaknesses, Opportunities, Threats)
+- [x] Build evidence-based recommendations engine with priority levels
+- [x] Add platform-by-platform comparison analytics

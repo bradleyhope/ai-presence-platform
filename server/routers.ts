@@ -6,9 +6,9 @@ import { entitiesRouter } from "./routers/entities";
 import { auditsRouter } from "./routers/audits";
 import { reportsRouter } from "./routers/reports";
 import { monitoringRouter } from "./routers/monitoring";
+import { analyticsRouter } from "./routers/analytics";
 
 export const appRouter = router({
-    // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can routexport const appRouter = router({
   system: systemRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
@@ -24,6 +24,7 @@ export const appRouter = router({
   audits: auditsRouter,
   reports: reportsRouter,
   monitoring: monitoringRouter,
+  analytics: analyticsRouter,
 });
 
 export type AppRouter = typeof appRouter;
