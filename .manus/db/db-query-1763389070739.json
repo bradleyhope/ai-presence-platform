@@ -1,0 +1,34 @@
+{
+  "query": "SHOW TABLES;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3rtqu41ZrFYhN2T.c15f7f1b01c3 --database 8dxWiMBd835cX498XF5nmx --execute SHOW TABLES;",
+  "rows": [
+    {
+      "Tables_in_8dxWiMBd835cX498XF5nmx": "__drizzle_migrations"
+    },
+    {
+      "Tables_in_8dxWiMBd835cX498XF5nmx": "agencies"
+    },
+    {
+      "Tables_in_8dxWiMBd835cX498XF5nmx": "alerts"
+    },
+    {
+      "Tables_in_8dxWiMBd835cX498XF5nmx": "audits"
+    },
+    {
+      "Tables_in_8dxWiMBd835cX498XF5nmx": "entities"
+    },
+    {
+      "Tables_in_8dxWiMBd835cX498XF5nmx": "queries"
+    },
+    {
+      "Tables_in_8dxWiMBd835cX498XF5nmx": "reports"
+    },
+    {
+      "Tables_in_8dxWiMBd835cX498XF5nmx": "users"
+    }
+  ],
+  "messages": [],
+  "stdout": "Tables_in_8dxWiMBd835cX498XF5nmx\n__drizzle_migrations\nagencies\nalerts\naudits\nentities\nqueries\nreports\nusers\n",
+  "stderr": "",
+  "execution_time_ms": 52
+}

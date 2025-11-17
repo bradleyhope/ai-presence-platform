@@ -1,0 +1,9 @@
+{
+  "query": "DROP TABLE IF EXISTS alerts, reports, queries, audits, entities, agencies;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3rtqu41ZrFYhN2T.c15f7f1b01c3 --database 8dxWiMBd835cX498XF5nmx --execute DROP TABLE IF EXISTS alerts, reports, queries, audits, entities, agencies;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 2034
+}
