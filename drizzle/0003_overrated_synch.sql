@@ -1,0 +1,2 @@
+ALTER TABLE `queries` MODIFY COLUMN `platform` enum('chatgpt','perplexity','gemini','claude','grok','chatgpt_web','gemini_web','claude_web','grok_web') NOT NULL;--> statement-breakpoint
+ALTER TABLE `queries` ADD `queryType` enum('llm','web_search') DEFAULT 'llm' NOT NULL;

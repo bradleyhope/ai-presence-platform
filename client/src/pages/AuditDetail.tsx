@@ -84,13 +84,18 @@ export default function AuditDetail() {
     );
   };
 
+  // Group queries by base platform and query type
   const queriesByPlatform = audit.queries?.reduce((acc, query) => {
-    if (!acc[query.platform]) {
-      acc[query.platform] = [];
+    // Get base platform (remove _web suffix)
+    const basePlatform = query.platform.replace('_web', '') as 'chatgpt' | 'perplexity' | 'gemini' | 'claude' | 'grok';
+    const queryType = query.platform.endsWith('_web') ? 'web_search' : 'llm';
+    
+    if (!acc[basePlatform]) {
+      acc[basePlatform] = { llm: [], web_search: [] };
     }
-    acc[query.platform].push(query);
+    acc[basePlatform][queryType].push(query);
     return acc;
-  }, {} as Record<string, typeof audit.queries>);
+  }, {} as Record<string, { llm: typeof audit.queries, web_search: typeof audit.queries }>);
 
   return (
     <DashboardLayout>
@@ -179,9 +184,74 @@ export default function AuditDetail() {
                 <TabsTrigger value="grok">Grok</TabsTrigger>
               </TabsList>
 
-              {Object.entries(queriesByPlatform || {}).map(([platform, queries]) => (
+              {Object.entries(queriesByPlatform || {}).map(([platform, queryGroups]) => (
                 <TabsContent key={platform} value={platform} className="space-y-4">
-                  {queries.map((query) => (
+                  {/* Nested tabs for LLM vs Web Search */}
+                  <Tabs defaultValue="llm" className="w-full">
+                    <TabsList className="grid w-full grid-cols-2">
+                      <TabsTrigger value="llm">Training Data</TabsTrigger>
+                      <TabsTrigger value="web_search">Web Search</TabsTrigger>
+                    </TabsList>
+
+                    <TabsContent value="llm" className="space-y-4 mt-4">
+                      {queryGroups.llm.map((query: any) => (
+                        <Card key={query.id}>
+                          <CardHeader>
+                            <div className="flex items-center justify-between">
+                              <CardTitle className="text-base">{query.queryText}</CardTitle>
+                              {getStatusBadge(query.status)}
+                            </div>
+                          </CardHeader>
+                          <CardContent>
+                            {query.status === "completed" && query.responseText && (
+                              <div className="space-y-4">
+                                <div>
+                                  <p className="text-sm font-medium mb-2">Response:</p>
+                                  <p className="text-sm text-muted-foreground whitespace-pre-wrap">
+                                    {query.responseText}
+                                  </p>
+                                </div>
+
+                                {query.citations && JSON.parse(query.citations).length > 0 && (
+                                  <div>
+                                    <p className="text-sm font-medium mb-2">Citations:</p>
+                                    <div className="space-y-1">
+                                      {JSON.parse(query.citations).map((citation: any, idx: number) => (
+                                        <a
+                                          key={idx}
+                                          href={citation.url}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          className="flex items-center text-sm text-primary hover:underline"
+                                        >
+                                          <ExternalLink className="h-3 w-3 mr-1" />
+                                          {citation.title || citation.url}
+                                        </a>
+                                      ))}
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            )}
+
+                            {query.status === "failed" && (
+                              <p className="text-sm text-destructive">{query.errorMessage || "Query failed"}</p>
+                            )}
+
+                            {query.status === "running" && (
+                              <p className="text-sm text-muted-foreground">Executing query...</p>
+                            )}
+
+                            {query.status === "pending" && (
+                              <p className="text-sm text-muted-foreground">Waiting to execute...</p>
+                            )}
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </TabsContent>
+
+                    <TabsContent value="web_search" className="space-y-4 mt-4">
+                      {queryGroups.web_search.map((query: any) => (
                     <Card key={query.id}>
                       <CardHeader>
                         <div className="flex items-center justify-between">
@@ -235,6 +305,8 @@ export default function AuditDetail() {
                       </CardContent>
                     </Card>
                   ))}
+                </TabsContent>
+                  </Tabs>
                 </TabsContent>
               ))}
             </Tabs>

@@ -5,7 +5,7 @@ import * as db from "../db";
 import { eq } from "drizzle-orm";
 import { audits } from "../../drizzle/schema";
 import { getDb } from "../db";
-import { queryAIPlatform } from "../services/aiQuery";
+import { queryAIPlatform, queryAIPlatformWebSearch } from "../services/aiQuery";
 
 export const auditsRouter = router({
   /**
@@ -85,13 +85,25 @@ export const auditsRouter = router({
       });
 
       // Create query records for each query/platform combination
+      // Run BOTH standard LLM and web search queries for comprehensive coverage
       for (const queryText of input.queries) {
         for (const platform of input.platforms) {
+          // Standard LLM query (training data)
           await db.createQuery({
             auditId,
             platform,
             queryText,
             status: "pending",
+            queryType: "llm",
+          });
+
+          // Web search query (current web sources)
+          await db.createQuery({
+            auditId,
+            platform: `${platform}_web` as any,
+            queryText,
+            status: "pending",
+            queryType: "web_search",
           });
         }
       }
@@ -142,8 +154,14 @@ export const auditsRouter = router({
             status: "running",
           });
 
-          // Execute the query
-          const result = await queryAIPlatform(query.platform, query.queryText);
+          // Execute the query (use web search for _web platforms)
+          let result;
+          if (query.platform.endsWith('_web')) {
+            const basePlatform = query.platform.replace('_web', '');
+            result = await queryAIPlatformWebSearch(basePlatform, query.queryText);
+          } else {
+            result = await queryAIPlatform(query.platform, query.queryText);
+          }
 
           // Update query with results
           await db.updateQuery(query.id, {

@@ -149,3 +149,15 @@
 ## Bug Fix: Navigation
 - [x] Remove placeholder "Page 2" from DashboardLayout
 - [x] Set up proper navigation menu with real pages (Dashboard, Entities, Audits, Reports)
+
+
+## Feature: Dual-Query System (LLM + Web Search)
+- [x] Research web search capabilities for each platform
+- [x] Implement ChatGPT web search (Responses API with gpt-5)
+- [x] Implement Gemini web search (Google Search grounding)
+- [x] Implement Claude web search (web_search_20250305 tool)
+- [x] Implement Grok web search (Live Search with Web + X + News)
+- [x] Update audit creation to run both LLM and web search queries
+- [x] Update database schema to track query type (llm vs web_search)
+- [x] Update UI to show both result types separately (nested tabs: Training Data | Web Search)
+- [x] Extract citations from web search results

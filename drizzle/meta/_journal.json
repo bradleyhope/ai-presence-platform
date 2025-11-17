@@ -22,6 +22,13 @@
       "when": 1763389929049,
       "tag": "0002_great_living_lightning",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1763394217708,
+      "tag": "0003_overrated_synch",
+      "breakpoints": true
     }
   ]
 }

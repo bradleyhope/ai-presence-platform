@@ -91,8 +91,12 @@ export type InsertAudit = typeof audits.$inferInsert;
 export const queries = mysqlTable("queries", {
   id: int("id").autoincrement().primaryKey(),
   auditId: int("auditId").notNull().references(() => audits.id, { onDelete: "cascade" }),
-  platform: mysqlEnum("platform", ["chatgpt", "perplexity", "gemini", "claude", "grok"]).notNull(),
+  platform: mysqlEnum("platform", [
+    "chatgpt", "perplexity", "gemini", "claude", "grok",
+    "chatgpt_web", "gemini_web", "claude_web", "grok_web"
+  ]).notNull(),
   queryText: text("queryText").notNull(),
+  queryType: mysqlEnum("queryType", ["llm", "web_search"]).default("llm").notNull(),
   status: mysqlEnum("status", ["pending", "running", "completed", "failed"]).default("pending").notNull(),
   responseText: text("responseText"),
   citations: text("citations"), // JSON array of citation objects
