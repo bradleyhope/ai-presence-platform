@@ -1,0 +1,1 @@
+ALTER TABLE `agencies` ADD `logoUrl` text;

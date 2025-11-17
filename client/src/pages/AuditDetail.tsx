@@ -5,8 +5,49 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { trpc } from "@/lib/trpc";
-import { ArrowLeft, CheckCircle2, Clock, ExternalLink, XCircle } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Clock, Download, ExternalLink, XCircle } from "lucide-react";
+import { toast } from "sonner";
+import { useState } from "react";
 import { Link, useParams } from "wouter";
+
+function GeneratePDFButton({ auditId }: { auditId: number }) {
+  const [isGenerating, setIsGenerating] = useState(false);
+  const generatePDF = trpc.reports.generatePDF.useMutation({
+    onSuccess: (data) => {
+      toast.success("PDF report generated successfully!");
+      // Open PDF in new tab
+      window.open(data.url, "_blank");
+      setIsGenerating(false);
+    },
+    onError: (error) => {
+      toast.error(`Failed to generate PDF: ${error.message}`);
+      setIsGenerating(false);
+    },
+  });
+
+  return (
+    <Button
+      onClick={() => {
+        setIsGenerating(true);
+        generatePDF.mutate({ auditId });
+      }}
+      disabled={isGenerating}
+      variant="outline"
+    >
+      {isGenerating ? (
+        <>
+          <Clock className="mr-2 h-4 w-4 animate-spin" />
+          Generating...
+        </>
+      ) : (
+        <>
+          <Download className="mr-2 h-4 w-4" />
+          Generate PDF Report
+        </>
+      )}
+    </Button>
+  );
+}
 
 export default function AuditDetail() {
   const { id } = useParams();
@@ -117,9 +158,12 @@ export default function AuditDetail() {
             </p>
           </div>
           {audit.status === "completed" && (
-            <Button asChild>
-              <Link href={`/audits/${id}/insights`}>View Insights</Link>
-            </Button>
+            <div className="flex gap-2">
+              <Button asChild>
+                <Link href={`/audits/${id}/insights`}>View Insights</Link>
+              </Button>
+              <GeneratePDFButton auditId={Number(id)} />
+            </div>
           )}
         </div>
 

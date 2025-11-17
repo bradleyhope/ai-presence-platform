@@ -33,6 +33,7 @@ export const agencies = mysqlTable("agencies", {
   name: varchar("name", { length: 255 }).notNull(),
   slug: varchar("slug", { length: 100 }).notNull().unique(),
   email: varchar("email", { length: 320 }),
+  logoUrl: text("logoUrl"),
   planTier: mysqlEnum("planTier", ["pilot", "standard", "premium"]).default("standard").notNull(),
   maxEntities: int("maxEntities").default(25).notNull(),
   status: mysqlEnum("status", ["active", "suspended", "cancelled"]).default("active").notNull(),

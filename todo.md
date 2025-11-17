@@ -186,3 +186,19 @@
 - [x] Add cascade deletion for related queries
 - [x] Add delete button to Audits list page
 - [x] Add confirmation dialog before deletion
+
+
+## Feature: White-Label PDF Reports
+- [x] Add logo field to agencies table
+- [x] Create agency settings page with logo upload
+- [x] Implement logo storage using S3
+- [x] Create PDF report generation service using pdfkit
+- [x] Design professional PDF template with branding
+- [x] Include executive summary with overall score
+- [x] Add analytics visualizations to PDF (all 6 dimensions)
+- [x] Include platform-by-platform breakdown
+- [x] Add prioritized recommendations section (SWOT + action items)
+- [x] Create report generation endpoint (reports.generatePDF)
+- [x] Store generated reports in database
+- [x] Add download button to audit detail page
+- [x] Add Settings link to navigation (already exists)

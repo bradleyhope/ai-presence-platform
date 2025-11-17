@@ -11,6 +11,7 @@ import Audits from "./pages/Audits";
 import AuditDetail from "./pages/AuditDetail";
 import AuditInsights from "./pages/AuditInsights";
 import Reports from "./pages/Reports";
+import AgencySettings from "./pages/AgencySettings";
 
 function Router() {
   return (
@@ -22,6 +23,7 @@ function Router() {
       <Route path={"/audits/:id"} component={AuditDetail} />
       <Route path={"/audits/:id/insights"} component={AuditInsights} />
       <Route path={"/reports"} component={Reports} />
+      <Route path={"/settings"} component={AgencySettings} />
       <Route path={"/404"} component={NotFound} />
       <Route component={NotFound} />
     </Switch>
