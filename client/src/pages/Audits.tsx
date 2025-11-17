@@ -33,7 +33,7 @@ export default function Audits() {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [selectedEntityId, setSelectedEntityId] = useState<string>("");
   const [queryText, setQueryText] = useState("");
-  const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>(["chatgpt", "perplexity", "gemini", "claude"]);
+  const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>(["chatgpt", "perplexity", "gemini", "claude", "grok"]);
 
   const utils = trpc.useUtils();
   const { data: audits, isLoading } = trpc.audits.list.useQuery(undefined, {
@@ -82,7 +82,7 @@ export default function Audits() {
     createMutation.mutate({
       entityId: Number(selectedEntityId),
       queries,
-      platforms: selectedPlatforms as ("chatgpt" | "perplexity" | "gemini" | "claude")[],
+      platforms: selectedPlatforms as ("chatgpt" | "perplexity" | "gemini" | "claude" | "grok")[],
     });
   };
 
@@ -238,6 +238,7 @@ export default function Audits() {
                     { id: "perplexity", label: "Perplexity" },
                     { id: "gemini", label: "Google Gemini" },
                     { id: "claude", label: "Anthropic Claude" },
+                    { id: "grok", label: "Grok (xAI)" },
                   ].map((platform) => (
                     <div key={platform.id} className="flex items-center space-x-2">
                       <Checkbox

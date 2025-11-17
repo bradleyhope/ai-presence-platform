@@ -1,0 +1,1 @@
+ALTER TABLE `queries` MODIFY COLUMN `platform` enum('chatgpt','perplexity','gemini','claude','grok') NOT NULL;

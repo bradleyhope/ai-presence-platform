@@ -189,6 +189,67 @@ export async function queryGemini(queryText: string): Promise<AIQueryResult> {
 }
 
 /**
+ * Query Grok by xAI
+ */
+export async function queryGrok(queryText: string): Promise<AIQueryResult> {
+  try {
+    console.log(`[AI Query] Querying Grok: "${queryText}"`);
+
+    const apiKey = process.env.XAI_API_KEY;
+    if (!apiKey) {
+      throw new Error("XAI_API_KEY not configured");
+    }
+
+    const response = await fetch("https://api.x.ai/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: "grok-2-1212",
+        messages: [
+          {
+            role: "system",
+            content: "You are Grok, a helpful assistant. Provide accurate, factual information.",
+          },
+          {
+            role: "user",
+            content: queryText,
+          },
+        ],
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Grok API error: ${response.status} ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    const responseText = data.choices?.[0]?.message?.content || "";
+
+    // Grok doesn't provide structured citations, so we extract them from text
+    const citations = extractCitationsFromText(responseText);
+
+    console.log(`[AI Query] Grok responded with ${responseText.length} characters, ${citations.length} citations`);
+
+    return {
+      platform: "grok",
+      responseText,
+      citations,
+    };
+  } catch (error: any) {
+    console.error(`[AI Query] Grok error:`, error);
+    return {
+      platform: "grok",
+      responseText: "",
+      citations: [],
+      error: error.message || "Unknown error",
+    };
+  }
+}
+
+/**
  * Query Anthropic Claude
  */
 export async function queryClaude(queryText: string): Promise<AIQueryResult> {
@@ -298,6 +359,8 @@ export async function queryAIPlatform(platform: string, queryText: string): Prom
       return await queryGemini(queryText);
     case "claude":
       return await queryClaude(queryText);
+    case "grok":
+      return await queryGrok(queryText);
     default:
       throw new Error(`Unknown platform: ${platform}`);
   }

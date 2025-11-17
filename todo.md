@@ -92,3 +92,11 @@
 - Using tRPC instead of REST API
 - Using Manus built-in LLM instead of separate Python service
 - Simplified architecture but same MVP features
+
+
+## Grok Integration (New Feature)
+- [x] Add Grok query function to AI service
+- [x] Update database schema to include 'grok' platform enum
+- [x] Update frontend UI to include Grok checkbox
+- [x] Update AuditDetail tabs to include Grok
+- [x] Test Grok integration with XAI_API_KEY

@@ -40,7 +40,7 @@ export const auditsRouter = router({
       z.object({
         entityId: z.number(),
         queries: z.array(z.string()).min(1, "At least one query is required"),
-        platforms: z.array(z.enum(["chatgpt", "perplexity", "gemini", "claude"])).min(1),
+        platforms: z.array(z.enum(["chatgpt", "perplexity", "gemini", "claude", "grok"])).min(1),
       })
     )
     .mutation(async ({ input, ctx }) => {

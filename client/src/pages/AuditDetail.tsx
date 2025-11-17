@@ -166,11 +166,12 @@ export default function AuditDetail() {
           </CardHeader>
           <CardContent>
             <Tabs defaultValue={Object.keys(queriesByPlatform || {})[0]} className="w-full">
-              <TabsList className="grid w-full grid-cols-4">
+              <TabsList className="grid w-full grid-cols-5">
                 <TabsTrigger value="chatgpt">ChatGPT</TabsTrigger>
                 <TabsTrigger value="perplexity">Perplexity</TabsTrigger>
                 <TabsTrigger value="gemini">Gemini</TabsTrigger>
                 <TabsTrigger value="claude">Claude</TabsTrigger>
+                <TabsTrigger value="grok">Grok</TabsTrigger>
               </TabsList>
 
               {Object.entries(queriesByPlatform || {}).map(([platform, queries]) => (

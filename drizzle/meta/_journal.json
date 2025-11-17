@@ -15,6 +15,13 @@
       "when": 1763389011678,
       "tag": "0001_thick_sally_floyd",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1763389929049,
+      "tag": "0002_great_living_lightning",
+      "breakpoints": true
     }
   ]
 }
