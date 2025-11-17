@@ -3,8 +3,6 @@
  * Handles querying multiple AI platforms and extracting citations
  */
 
-import { invokeLLM } from "../_core/llm";
-
 export interface Citation {
   title?: string;
   url?: string;
@@ -20,31 +18,47 @@ export interface AIQueryResult {
 }
 
 /**
- * Query ChatGPT using the built-in LLM helper
+ * Query ChatGPT using OpenAI API
  */
 export async function queryChatGPT(queryText: string): Promise<AIQueryResult> {
   try {
     console.log(`[AI Query] Querying ChatGPT: "${queryText}"`);
 
-    const response = await invokeLLM({
-      messages: [
-        {
-          role: "system",
-          content:
-            "You are a helpful assistant. Provide accurate, factual information. When possible, mention specific sources or references for your information.",
-        },
-        {
-          role: "user",
-          content: queryText,
-        },
-      ],
+    const apiKey = process.env.OPENAI_API_KEY;
+    if (!apiKey) {
+      throw new Error("OPENAI_API_KEY not configured");
+    }
+
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: "gpt-4o",
+        messages: [
+          {
+            role: "system",
+            content:
+              "You are a helpful assistant. Provide accurate, factual information. When possible, mention specific sources or references for your information.",
+          },
+          {
+            role: "user",
+            content: queryText,
+          },
+        ],
+      }),
     });
 
-    const content = response.choices[0]?.message?.content;
-    const responseText = typeof content === 'string' ? content : JSON.stringify(content);
+    if (!response.ok) {
+      throw new Error(`OpenAI API error: ${response.status} ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    const responseText = data.choices?.[0]?.message?.content || "";
 
     // Extract potential citations from the response
-    // This is a simple implementation - in production, you'd use more sophisticated parsing
     const citations = extractCitationsFromText(responseText);
 
     console.log(`[AI Query] ChatGPT responded with ${responseText.length} characters, ${citations.length} citations`);

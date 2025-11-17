@@ -100,3 +100,9 @@
 - [x] Update frontend UI to include Grok checkbox
 - [x] Update AuditDetail tabs to include Grok
 - [x] Test Grok integration with XAI_API_KEY
+
+
+## Use User's OpenAI API Key
+- [x] Update ChatGPT query function to use OpenAI API directly
+- [x] Remove dependency on built-in Manus LLM helper for ChatGPT
+- [x] Add OPENAI_API_KEY to required secrets
