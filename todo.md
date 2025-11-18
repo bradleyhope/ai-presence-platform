@@ -202,3 +202,12 @@
 - [x] Store generated reports in database
 - [x] Add download button to audit detail page
 - [x] Add Settings link to navigation (already exists)
+
+
+## UX Improvement Consultation
+- [ ] Consult Claude Opus 4.1 for UX/product recommendations
+- [ ] Consult ChatGPT-5 for user experience structure advice
+- [ ] Consult Gemini for interface and workflow insights
+- [ ] Synthesize recommendations from all three AIs
+- [ ] Create prioritized improvement plan
+- [ ] Implement top UX improvements
