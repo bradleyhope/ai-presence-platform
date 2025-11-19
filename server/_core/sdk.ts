@@ -257,6 +257,29 @@ class SDKServer {
   }
 
   async authenticateRequest(req: Request): Promise<User> {
+    // If OAuth is not configured, create/return a demo user
+    if (!ENV.oAuthServerUrl) {
+      const demoOpenId = "demo-user-local";
+      let user = await db.getUserByOpenId(demoOpenId);
+      
+      if (!user) {
+        await db.upsertUser({
+          openId: demoOpenId,
+          name: "Demo User",
+          email: "demo@localhost",
+          loginMethod: "demo",
+          lastSignedIn: new Date(),
+        });
+        user = await db.getUserByOpenId(demoOpenId);
+      }
+      
+      if (!user) {
+        throw ForbiddenError("Failed to create demo user");
+      }
+      
+      return user;
+    }
+    
     // Regular authentication flow
     const cookies = this.parseCookies(req.headers.cookie);
     const sessionCookie = cookies.get(COOKIE_NAME);
